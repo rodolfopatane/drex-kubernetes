@@ -4,9 +4,6 @@ kind: StatefulSet
 metadata:
   name: {{ template "besu-node.fullname" . }}
   labels:
-{{- if and (eq .Values.cluster.provider "azure") (.Values.cluster.cloudNativeServices) }}
-    aadpodidbinding: "{{ .Values.azure.identityName }}"
-{{- end }}
     app.kubernetes.io/name: besu-statefulset
     app.kubernetes.io/component: besu
     app.kubernetes.io/part-of: {{ include "besu-node.fullname" . }}
@@ -43,9 +40,6 @@ spec:
   template:
     metadata:
       labels:
-{{- if and (eq .Values.cluster.provider "azure") (.Values.cluster.cloudNativeServices) }}        
-        aadpodidbinding: "{{ .Values.azure.identityName }}"
-{{- end }}
         app.kubernetes.io/name: besu-statefulset
         app.kubernetes.io/component: besu
         app.kubernetes.io/part-of: {{ include "besu-node.fullname" . }}
@@ -187,9 +181,7 @@ spec:
 
                 cat {{ .Values.node.tessera.dataPath }}/tessera-config-09.json
                 /tessera/bin/tessera -configfile {{ .Values.node.tessera.dataPath }}/tessera-config-09.json
-
 {{- end }}
-
 
       - name: {{ .Release.Name }}-besu
         image: {{ .Values.image.besu.repository }}:{{ .Values.image.besu.tag }}
@@ -213,7 +205,7 @@ spec:
 {{- if .Values.node.besu.envBesuOpts }}
           - name: BESU_OPTS
             value: "{{ .Values.node.besu.envBesuOpts }}"
-{{- end }}    
+{{- end }}
 {{- if .Values.quorumFlags.usesBootnodes }}
           - name: BESU_BOOTNODES
             valueFrom:
@@ -234,7 +226,7 @@ spec:
           - name: tessera-keys
             mountPath: {{ .Values.node.besu.privacy.pubkeysPath }}
             readOnly: true
-{{- end }}            
+{{- end }}
 {{- end }}
           - name: genesis
             mountPath: /etc/genesis

@@ -43,7 +43,7 @@ spec:
       targetPort: metrics
       protocol: TCP
       
-{{- if .Values.quorumFlags.privacy }}          
+{{- if .Values.quorumFlags.privacy }}
     - name: tessera
       port: {{ .Values.node.tessera.port }}
       targetPort: tessera
@@ -57,7 +57,6 @@ spec:
       targetPort: tessera-q2t
       protocol: TCP
 {{- end }}
-
 
 {{- if and .Values.node.besu.metrics.enabled .Values.node.besu.metrics.serviceMonitorEnabled }}
 ---
@@ -84,9 +83,8 @@ spec:
     - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "besu-node.fullname" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
-      app.kubernetes.io/component: {{ .Release.Name }}
+      app.kubernetes.io/part-of: {{ include "besu-node.fullname" . }}
+      app.kubernetes.io/component: service
   endpoints:
   - port: metrics
     interval: 15s

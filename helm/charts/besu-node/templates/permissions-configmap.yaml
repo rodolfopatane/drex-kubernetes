@@ -16,5 +16,4 @@ data:
 
     accounts-allowlist={{ .Values.node.besu.permissions.accounts.allowlist }}
     nodes-allowlist={{ .Values.node.besu.permissions.nodes.allowlist }}
-
 {{- end -}}
