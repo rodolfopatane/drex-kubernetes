@@ -4,9 +4,6 @@ kind: Job
 metadata:
   name: {{ include "besu-genesis.name" . }}-cleanup
   labels:
-{{- if and (eq .Values.cluster.provider "azure") (.Values.cluster.cloudNativeServices) }}
-    aadpodidbinding: "{{ .Values.azure.identityName }}"
-{{- end }}  
     app.kubernetes.io/name: besu-genesis-job-cleanup
     app.kubernetes.io/component: genesis-job-cleanup
     app.kubernetes.io/part-of: {{ include "besu-genesis.fullname" . }}
@@ -23,9 +20,6 @@ spec:
   template:
     metadata:
       labels:
-{{- if and (eq .Values.cluster.provider "azure") (.Values.cluster.cloudNativeServices) }}
-        aadpodidbinding: "{{ .Values.azure.identityName }}"
-{{- end}}         
         app.kubernetes.io/name: besu-genesis-job-cleanup
         app.kubernetes.io/component: genesis-job-cleanup
         app.kubernetes.io/part-of: {{ include "besu-genesis.fullname" . }}
@@ -36,7 +30,7 @@ spec:
       serviceAccountName: {{ .Values.aws.serviceAccountName }}
 {{- else }}
       serviceAccountName: {{ include "besu-genesis.name" . }}-sa
-{{- end }}        
+{{- end }}
       restartPolicy: "Never"
       containers:
         - name: delete-genesis
@@ -51,11 +45,9 @@ spec:
             - |
 
 {{- if .Values.quorumFlags.removeGenesisOnDelete }}
-
               echo "Deleting genesis configmap in k8s ..."
               kubectl delete configmap --namespace {{ .Release.Namespace }} besu-genesis
 
               echo "Deleting node-enodes configmap in k8s ..."
               kubectl delete configmap --namespace {{ .Release.Namespace }} besu-peers
-
-{{- end}} 
+{{- end}}

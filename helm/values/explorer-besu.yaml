@@ -16,50 +16,42 @@ explorerConfig: |
   "nodes": [{
       "name": "validator1",
       "client": "besu",
-      "rpcUrl": "http://besu-node-validator-1-0.besu-node-validator-1.quorum.svc.cluster.local:8545",
+      "rpcUrl": "http://besu-node-validator-1.besu.svc.cluster.local:8545",
       "privateTxUrl": ""
     },
     {
       "name": "validator2",
       "client": "besu",
-      "rpcUrl": "http://besu-node-validator-2-0.besu-node-validator-2.quorum.svc.cluster.local:8545",
+      "rpcUrl": "http://besu-node-validator-2.besu.svc.cluster.local:8545",
       "privateTxUrl": ""
     },
     {
       "name": "validator3",
       "client": "besu",
-      "rpcUrl": "http://besu-node-validator-3-0.besu-node-validator-3.quorum.svc.cluster.local:8545",
+      "rpcUrl": "http://besu-node-validator-3.besu.svc.cluster.local:8545",
       "privateTxUrl": ""
     },
     {
       "name": "validator4",
       "client": "besu",
-      "rpcUrl": "http://besu-node-validator-4-0.besu-node-validator-4.quorum.svc.cluster.local:8545",
+      "rpcUrl": "http://besu-node-validator-4.besu.svc.cluster.local:8545",
       "privateTxUrl": ""
     },
     {
       "name": "member1",
       "client": "besu",
-      "rpcUrl": "http://besu-node-member-1-0.besu-node-member-1.quorum.svc.cluster.local:8545",
-      "privateTxUrl": "http://besu-node-member-1.quorum.svc.cluster.local:9080",
-      "privateKey": "0x8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63",
-      "accountAddress": "0xfe3b557e8fb62b89f4916b721be55ceb828dbd73"
+      "rpcUrl": "http://besu-node-member-1.besu.svc.cluster.local:8545",
+      "privateTxUrl": "http://besu-node-member-1.besu.svc.cluster.local:9080",
+      "privateKey": "0x6b5ee9334c05d09eb935d90b3227e6922fcc70dca315f9a970973b7ade7e58ca",
+      "accountAddress": "0x16b66b29c7a88cb91f51946db99de77e21dcb155"
     },
     {
       "name": "member2",
       "client": "besu",
-      "rpcUrl": "http://besu-node-member-2-0.besu-node-member-2.quorum.svc.cluster.local:8545",
-      "privateTxUrl": "http://besu-node-member-2.quorum.svc.cluster.local:9080",
-      "privateKey": "0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3",
-      "accountAddress": "0x627306090abaB3A6e1400e9345bC60c78a8BEf57"
-    },
-    {
-      "name": "member3",
-      "client": "besu",
-      "rpcUrl": "http://besu-node-member-3-0.besu-node-member-3.quorum.svc.cluster.local:8545",
-      "privateTxUrl": "http://besu-node-member-3.quorum.svc.cluster.local:9080",
-      "privateKey": "0xae6ae8e5ccbfb04590405997ee2d52d2b330726137b875053c36d94e974d162f",
-      "accountAddress": "0xf17f52151EbEF6C7334FAD080c5704D77216b732"
+      "rpcUrl": "http://besu-node-member-2.besu.svc.cluster.local:8545",
+      "privateTxUrl": "http://besu-node-member-2.besu.svc.cluster.local:9080",
+      "privateKey": "0x7e3446c09086c76e50e433f479da1a745b34b4ec32e38b8af83bac6654105e9b",
+      "accountAddress": "0xee1d18f45ea4fcb8fe99792dd257731c56fac722"
     }
   ]
   }

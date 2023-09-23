@@ -8,26 +8,15 @@ quorumFlags:
   usesBootnodes: true # set this to true if the network you are connecting to use a bootnode/s that are deployed in the cluster 
 
 cluster:
-  provider: local  # choose from: local | aws | azure
-  cloudNativeServices: false # set to true to use Cloud Native Services (SecretsManager and IAM for AWS; KeyVault & Managed Identities for Azure)
+  provider: aws  # choose from: local | aws
+  cloudNativeServices: true # set to true to use Cloud Native Services (SecretsManager and IAM for AWS)
   reclaimPolicy: Delete # set to either Retain or Delete
 
 aws:
   # the aws cli commands uses the name 'quorum-node-secrets-sa' so only change this if you altered the name
   serviceAccountName: quorum-node-secrets-sa
   # the region you are deploying to
-  region: ap-southeast-2
-
-azure:
-  # the script/bootstrap.sh uses the name 'quorum-pod-identity' so only change this if you altered the name
-  identityName: quorum-pod-identity
-  # the clientId of the user assigned managed identity created in the template
-  identityClientId: azure-clientId
-  keyvaultName: azure-keyvault
-  # the tenant ID of the key vault
-  tenantId: azure-tenantId
-  # the subscription ID to use - this needs to be set explictly when using multi tenancy
-  subscriptionId: azure-subscriptionId
+  region: us-east-1
 
 storage:
   sizeLimit: "20Gi"
@@ -60,6 +49,7 @@ node:
     privateKeyPath: "/keys/nodekey"
     genesisFilePath: "/etc/genesis/genesis.json"
     logging: INFO
+    overwrite: false
     customLabels: {}
     account:
       password: 'password'
@@ -148,7 +138,7 @@ node:
 image:
   besu:
     repository: hyperledger/besu
-    tag: 22.7.2
+    tag: 23.4.4
     pullPolicy: IfNotPresent
   tessera:
     repository: quorumengineering/tessera
@@ -156,6 +146,6 @@ image:
     pullPolicy: IfNotPresent
   hooks:
     repository: consensys/quorum-k8s-hooks
-    tag: qgt-0.2.3
+    tag: qgt-0.2.6
     pullPolicy: IfNotPresent
 

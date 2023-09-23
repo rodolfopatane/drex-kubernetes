@@ -9,9 +9,6 @@ metadata:
     helm.sh/hook-weight: "0"
     helm.sh/hook-delete-policy: "hook-succeeded"
   labels:
-{{- if and (eq .Values.cluster.provider "azure") (.Values.cluster.cloudNativeServices) }}
-    aadpodidbinding: "{{ .Values.azure.identityName }}"
-{{- end }}
     app.kubernetes.io/name: pre-delete-hook
     app.kubernetes.io/component: job
     app.kubernetes.io/part-of: {{ include "besu-node.fullname" . }}
@@ -24,9 +21,6 @@ spec:
   template:
     metadata:
       labels:
-{{- if and (eq .Values.cluster.provider "azure") (.Values.cluster.cloudNativeServices) }}
-        aadpodidbinding: "{{ .Values.azure.identityName }}"
-{{- end}}      
         app.kubernetes.io/name: pre-delete-hook
         app.kubernetes.io/instance: {{ .Release.Name }} 
     spec:
@@ -45,24 +39,9 @@ spec:
             - -c
           args:
             - |
-
               echo "{{ template "besu-node.fullname" . }} Pre Delete hook ..."
 
-{{- if and (eq .Values.cluster.provider "azure") (.Values.cluster.cloudNativeServices) }}
-
-              function deleteSecret {
-                key=$1
-                fpath=$2
-                az keyvault secret show --vault-name {{ .Values.azure.keyvaultName }} --name $key > /dev/null 2>&1
-                if [ $? -eq 0 ]; then
-                  az keyvault secret delete --vault-name {{ .Values.azure.keyvaultName }} --name $key
-                fi
-              }
-
-              az login --identity --debug
-              az account set --subscription {{ .Values.azure.subscriptionId }}
-
-{{- else if and (eq .Values.cluster.provider "aws") (.Values.cluster.cloudNativeServices) }}
+{{- if and (eq .Values.cluster.provider "aws") (.Values.cluster.cloudNativeServices) }}
 
               function deleteSecret {
                 key=$1
@@ -71,14 +50,12 @@ spec:
                   aws secretsmanager delete-secret --secret-id $key --recovery-window-in-days 7
                 fi
               }
-
 {{- else }}
 
               function deleteSecret {
                 key=$1
                 kubectl delete secret ${key} --namespace {{ .Release.Namespace }} 
               }
-
 {{- end }}
 
               function delete_node_from_tessera_peers_configmap {
@@ -144,15 +121,15 @@ spec:
               deleteSecret {{ template "besu-node.fullname" . }}-accountKeystore
               deleteSecret {{ template "besu-node.fullname" . }}-accountAddress
               deleteSecret {{ template "besu-node.fullname" . }}-address
-
 {{- if .Values.quorumFlags.privacy }}
+
               deleteSecret {{ template "besu-node.fullname" . }}-tmkey
               deleteSecret {{ template "besu-node.fullname" . }}-tmkeypub
               deleteSecret {{ template "besu-node.fullname" . }}-tmpassword
 {{- end }}
 
 {{- else }}
-                  
+
               deleteSecret {{ template "besu-node.fullname" . }}-keys
               deleteSecret {{ template "besu-node.fullname" . }}-account
 {{- if .Values.quorumFlags.privacy }}
@@ -161,7 +138,6 @@ spec:
 
 {{- end }}
 
-{{- end }}       
+{{- end }}
 
               echo "Completed"
-
